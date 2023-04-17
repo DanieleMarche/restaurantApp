@@ -1,0 +1,24 @@
+
+import 'package:flutter/material.dart';
+
+class ScopriLaMasseria extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Pagina 1'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: TextButton(
+          child: Text('Torna alla Home'),
+          onPressed: () => Navigator.pop(context),
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.white,
+              textStyle: TextStyle(color: Colors.black)
+              )
+        ),
+      ),
+    );
+  }
+}
