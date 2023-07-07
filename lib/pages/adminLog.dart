@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminLog extends StatelessWidget {
+  const AdminLog({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class AdminLog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.black)
               ),
           child: const Text('Torna alla Home')

@@ -6,7 +6,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pagina 2'),
+        title: const Text('Menu'),
         centerTitle: true,
         actions: [
           IconButton(

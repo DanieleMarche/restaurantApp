@@ -5,7 +5,7 @@ class Ordina extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pagina 1'),
+        title: Text('Ordina'),
         centerTitle: true,
       ),
       body: Center(

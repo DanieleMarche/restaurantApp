@@ -2,7 +2,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/all.dart';
-import 'package:http/http.dart' as http;
 import 'pages/HomePage/homePage.dart';
 
 void main() async {
@@ -23,19 +22,19 @@ class LaMasseriaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App con Home e Bottni',
+      title: 'App con Home e Bottoni',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
       routes: {
-        '/scopri': (context) => ScopriLaMasseria(),
+        '/scopri': (context) => const ScopriLaMasseria(),
         '/menu': (context) => Menu(),
-        '/adminLog': (context) => AdminLog(),
+        '/adminLog': (context) => const AdminLog(),
         '/prenota': (context) => Prenota(),
         '/ordina':(context) => Ordina(),
         '/ev':(context) => EventiEPromozioni(),
-        '/contatti':(context) => Contatti()
+        '/contatti':(context) => const Contatti()
         
       },
     );

@@ -5,7 +5,7 @@ class EventiEPromozioni extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pagina 1'),
+        title: Text('Eventi e Promozioni'),
         centerTitle: true,
       ),
       body: Center(

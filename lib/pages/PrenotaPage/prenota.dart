@@ -1,14 +1,14 @@
-import 'dart:convert';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
 import 'package:flutter_application_1/pages/PrenotaPage/textForm.dart';
 
 class Prenota extends StatefulWidget {
-  Prenota({super.key});
+  const Prenota({super.key});
 
-  String testo = "ciao"; 
-    
   @override
   State<Prenota> createState() => _PrenotaState();
 
@@ -16,9 +16,45 @@ class Prenota extends StatefulWidget {
 
 class _PrenotaState extends State<Prenota>{
 
-  TextEditingController nominativo = new TextEditingController();
-  TextEditingController telefono = new TextEditingController();
-  TextEditingController speciali = new TextEditingController();
+  String _testo = "null"; 
+  bool _textVisibility = false;
+
+  Map<String, String> _prenotazione = {};
+
+  String _result = "";
+
+  Future<String> nuovaPrenotazione(var prenotazione) async {
+    String testo = "";
+    var db = FirebaseFirestore.instance;
+    await db.collection("prova").doc().set(prenotazione)
+    .then((value) => setState(() {testo = "success";}))
+    .catchError((error) => setState(() {_testo = "problem has occurred";}));
+    return testo;
+  }
+
+    Widget databaseReturn () {
+    if (_prenotazione.isEmpty) {
+      return const Text("");
+    } else {
+      return FutureBuilder<String>(
+        future: nuovaPrenotazione(_prenotazione),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          _prenotazione = {};
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("Caricamento...");
+          } else {
+            _result = "risultato = ${snapshot.data}";
+            return Text(_result);
+          }
+        }
+      );
+    }
+  }
+
+
+  TextEditingController nominativo = TextEditingController();
+  TextEditingController telefono = TextEditingController();
+  TextEditingController speciali = TextEditingController();
 
 
   @override
@@ -35,31 +71,36 @@ class _PrenotaState extends State<Prenota>{
             TextForm(titolo: 'Numero', hintText: '30040050000', myController: speciali,),
             TextForm(titolo: 'Richieste Speciali', hintText: 'Es. 1 celicalo', myController: telefono,),
             ElevatedButton(
-                child: Text("Register"),
+
+                child: const Text("Register"),
                 onPressed: (){
 
-                  final prenotazione = {
+                  setState(() {
+                    _prenotazione = {
                     "nominativo" : nominativo.value.text,
                     "telefono" : telefono.value.text,
                     "richieste_speciali" : speciali.value.text
-                  };
+                    };
 
-                  var db = FirebaseFirestore.instance;
-                  db.collection("prova").doc().set(prenotazione);
-                  
-                },
+                  });
+
+                  nominativo.clear();
+                  telefono.clear();
+                  speciali.clear();
+
+
+                }
+                
               ),
 
-              Text(widget.testo)
-              
-
-              
-            
-            
+              DefaultTextStyle(
+                style: Theme.of(context).textTheme.displayMedium!,
+                textAlign: TextAlign.center,
+                child: databaseReturn()
+              )
           ],
         ),
       )
     );
   }
-
 }
