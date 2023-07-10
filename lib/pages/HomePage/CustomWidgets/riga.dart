@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:drop_down_list/drop_down_list.dart';
 
 import 'bottone.dart';
 
