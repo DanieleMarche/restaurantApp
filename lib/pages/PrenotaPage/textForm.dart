@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 class TextForm extends StatefulWidget {
   TextForm({super.key, required this.titolo, required this.hintText, required this.myController});
+
   String titolo;
-  
-   
   String hintText;
   TextEditingController myController;
-
 
   @override
   State<TextForm> createState() => _TextFormState();
@@ -19,11 +17,6 @@ class _TextFormState extends State<TextForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
    
-
-
-
-  
-
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -38,7 +31,7 @@ class _TextFormState extends State<TextForm> {
       children: [
         Container(
           alignment: Alignment.bottomLeft,
-          margin: const EdgeInsets.only(bottom: 20, left: 5),
+          margin: const EdgeInsets.only(bottom: 10, left: 10),
           child: Text(
             widget.titolo,
             style: const TextStyle(
@@ -47,10 +40,12 @@ class _TextFormState extends State<TextForm> {
             ),
           ),
         ),
-        TextField(
+        Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: TextField(
           decoration: InputDecoration(
             border:  const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))
+              borderRadius: BorderRadius.all(Radius.circular(15))
             ),
             hintText: widget.hintText
           ),
@@ -59,6 +54,8 @@ class _TextFormState extends State<TextForm> {
           maxLength: 50,
           controller: widget.myController
         ),    
+        )
+        
     ]);
   }
 }
