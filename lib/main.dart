@@ -17,23 +17,19 @@ void main() async {
 class LaMasseriaApp extends StatelessWidget {
   const LaMasseriaApp({super.key});
   
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'App con Home e Bottoni',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      
       home: const HomePage(),
       routes: {
         '/scopri': (context) => const ScopriLaMasseria(),
-        '/menu': (context) => Menu(),
+        '/menu': (context) => const Menu(),
         '/adminLog': (context) => const AdminLog(),
-        '/prenota': (context) => Prenota(),
-        '/ordina':(context) => Ordina(),
-        '/ev':(context) => EventiEPromozioni(),
+        '/prenota': (context) => const Prenota(),
+        '/ordina':(context) => const Ordina(),
+        '/ev':(context) => const EventiEPromozioni(),
         '/contatti':(context) => const Contatti()
         
       },
