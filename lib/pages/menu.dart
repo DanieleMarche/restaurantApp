@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/adminLog.dart';
 
 class Menu extends StatelessWidget {
+  const Menu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +22,7 @@ class Menu extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              textStyle: TextStyle(color: Colors.black)
+              textStyle: const TextStyle(color: Colors.black)
               ),
           child: const Text('Torna alla Home')
         ),
