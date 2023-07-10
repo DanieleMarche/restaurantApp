@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
 class Ordina extends StatelessWidget {
+  const Ordina({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ordina'),
+        title: const Text('Ordina'),
         centerTitle: true,
       ),
       body: Center(
         child: TextButton(
-          child: Text('Torna alla Home'),
           onPressed: () => Navigator.pop(context),
           style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              textStyle: TextStyle(color: Colors.black)
-              )
+              textStyle: const TextStyle(color: Colors.black)
+              ),
+          child: const Text('Torna alla Home')
         ),
       ),
     );
