@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 import 'package:flutter_application_1/pages/PrenotaPage/textForm.dart';
 
@@ -16,91 +17,118 @@ class Prenota extends StatefulWidget {
 
 class _PrenotaState extends State<Prenota>{
 
-  String _testo = "null"; 
-  bool _textVisibility = false;
-
   Map<String, String> _prenotazione = {};
 
   String _result = "";
 
+  TextEditingController nominativo = TextEditingController();
+  TextEditingController telefono = TextEditingController();
+  TextEditingController speciali = TextEditingController();
+
   Future<String> nuovaPrenotazione(var prenotazione) async {
     String testo = "";
     var db = FirebaseFirestore.instance;
+
     await db.collection("prova").doc().set(prenotazione)
     .then((value) => setState(() {testo = "success";}))
-    .catchError((error) => setState(() {_testo = "problem has occurred";}));
+    .catchError((error) => setState(() {testo = "problem has occurred : $error";}));
+    
+    _prenotazione.clear();
+
     return testo;
   }
 
-    Widget databaseReturn () {
+  Widget databaseReturn () {
     if (_prenotazione.isEmpty) {
-      return const Text("");
+      return Text(_result);
     } else {
       return FutureBuilder<String>(
         future: nuovaPrenotazione(_prenotazione),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          _prenotazione = {};
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Text("Caricamento...");
           } else {
             _result = "risultato = ${snapshot.data}";
+            _sendSMS("ciao", ["3920804319"]);
             return Text(_result);
+            
           }
         }
       );
     }
   }
 
-
-  TextEditingController nominativo = TextEditingController();
-  TextEditingController telefono = TextEditingController();
-  TextEditingController speciali = TextEditingController();
-
+  Future<String> _sendSMS(String message, List<String> recipents) async {
+  String result = await sendSMS(message: message, recipients: recipents)
+          .catchError((onError) {
+        return onError;
+      });
+  return result;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Prenota un tavolo'),
+        iconTheme: const IconThemeData(color: Colors.black),
+
+        backgroundColor: Colors.white,
+        title: const Text('Prenota un tavolo', style: TextStyle(color: Colors.black),),
+        
       ),
-      body: Center(
-        child: Column(
-          children: [
+      body: 
+      
+        Container(
 
-            TextForm(titolo: 'Nominativo', hintText: 'Mario Rossi', myController: nominativo,),
-            TextForm(titolo: 'Numero', hintText: '30040050000', myController: speciali,),
-            TextForm(titolo: 'Richieste Speciali', hintText: 'Es. 1 celicalo', myController: telefono,),
-            ElevatedButton(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(top: 15, left: 10, right: 10),
 
-                child: const Text("Register"),
+          child: Column(
+
+            children: [
+
+              TextForm(titolo: 'Nominativo:', hintText: 'Mario Rossi', myController: nominativo,),
+              TextForm(titolo: 'Numero di telefono:', hintText: '30040050000', myController: speciali,),
+              TextForm(titolo: 'Richieste Speciali:', hintText: 'Es. 1 celicalo', myController: telefono,),
+
+              ElevatedButton(
+
+                child: const Text("Prenota il tavolo"),
                 onPressed: (){
-
-                  setState(() {
+                  if (nominativo.value.text != "" && telefono.value.text != "" && speciali.value.text != "") {
+                    setState(() {
                     _prenotazione = {
                     "nominativo" : nominativo.value.text,
                     "telefono" : telefono.value.text,
                     "richieste_speciali" : speciali.value.text
                     };
-
-                  });
+                    });
+                    
+                  }else {
+                    setState(() {
+                      _result = "Riempi tutti i campi";
+                    });
+                  }
 
                   nominativo.clear();
                   telefono.clear();
                   speciali.clear();
 
-
+                  
                 }
-                
-              ),
+                  
+                ),
 
-              DefaultTextStyle(
-                style: Theme.of(context).textTheme.displayMedium!,
-                textAlign: TextAlign.center,
-                child: databaseReturn()
-              )
-          ],
-        ),
-      )
-    );
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.displayMedium!,
+                  textAlign: TextAlign.center,
+                  child: databaseReturn()
+                )
+            ],
+          ),
+        )
+      );
+
   }
 }
