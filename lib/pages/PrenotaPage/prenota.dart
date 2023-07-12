@@ -3,9 +3,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sms/flutter_sms.dart';
 
 import 'package:flutter_application_1/pages/PrenotaPage/textForm.dart';
+
+import 'date_form.dart';
 
 class Prenota extends StatefulWidget {
   const Prenota({super.key});
@@ -50,21 +51,13 @@ class _PrenotaState extends State<Prenota>{
             return const Text("Caricamento...");
           } else {
             _result = "risultato = ${snapshot.data}";
-            _sendSMS("ciao", ["3920804319"]);
+          
             return Text(_result);
             
           }
         }
       );
     }
-  }
-
-  Future<String> _sendSMS(String message, List<String> recipents) async {
-  String result = await sendSMS(message: message, recipients: recipents)
-          .catchError((onError) {
-        return onError;
-      });
-  return result;
   }
 
   @override
@@ -90,6 +83,7 @@ class _PrenotaState extends State<Prenota>{
 
               TextForm(titolo: 'Nominativo:', hintText: 'Mario Rossi', myController: nominativo,),
               TextForm(titolo: 'Numero di telefono:', hintText: '30040050000', myController: speciali,),
+              DateForm(),
               TextForm(titolo: 'Richieste Speciali:', hintText: 'Es. 1 celicalo', myController: telefono,),
 
               ElevatedButton(
