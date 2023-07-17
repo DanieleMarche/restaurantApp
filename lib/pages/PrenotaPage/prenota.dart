@@ -22,6 +22,8 @@ class _PrenotaState extends State<Prenota>{
 
   Map<String, Object> _prenotazione = {};
 
+  late bool _pranzoAperti;
+
   String _result = "";
 
   TextEditingController nominativo = TextEditingController();
@@ -29,6 +31,21 @@ class _PrenotaState extends State<Prenota>{
   TextEditingController speciali = TextEditingController();
   DatePickerController giorno = DatePickerController();
   TimePickerController ora = TimePickerController();
+
+    @override
+  void initState() async {
+    super.initState();
+
+    var collection = FirebaseFirestore.instance.collection('users');
+    var docSnapshot = await collection.doc('doc_id').get();
+    if (docSnapshot.exists) {
+      Map<String, dynamic>? data = docSnapshot.data();
+      _pranzoAperti = data?['pranzo_giorni_feriali']; // <-- The value you want to retrieve. 
+      // Call setState if needed.
+    }
+
+
+  }
 
   Future<String> nuovaPrenotazione(var prenotazione) async {
     String testo = "";
