@@ -3,8 +3,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/PrenotaPage/date_picker_timeline/date_picker_widget.dart';
 
 import 'package:flutter_application_1/pages/PrenotaPage/textForm.dart';
+import 'package:flutter_application_1/pages/PrenotaPage/time_picker_timeline/time_picker_widget.dart';
 
 import 'date_form.dart';
 
@@ -18,13 +20,15 @@ class Prenota extends StatefulWidget {
 
 class _PrenotaState extends State<Prenota>{
 
-  Map<String, String> _prenotazione = {};
+  Map<String, Object> _prenotazione = {};
 
   String _result = "";
 
   TextEditingController nominativo = TextEditingController();
   TextEditingController telefono = TextEditingController();
   TextEditingController speciali = TextEditingController();
+  DatePickerController giorno = DatePickerController();
+  TimePickerController ora = TimePickerController();
 
   Future<String> nuovaPrenotazione(var prenotazione) async {
     String testo = "";
@@ -82,20 +86,29 @@ class _PrenotaState extends State<Prenota>{
             children: [
 
               TextForm(titolo: 'Nominativo:', hintText: 'Mario Rossi', myController: nominativo,),
-              TextForm(titolo: 'Numero di telefono:', hintText: '30040050000', myController: speciali,),
-              DateForm(),
-              TextForm(titolo: 'Richieste Speciali:', hintText: 'Es. 1 celicalo', myController: telefono,),
+              TextForm(titolo: 'Numero di telefono:', hintText: '30040050000', myController: telefono,),
+              DateForm(datePickerController: giorno, timePickerController: ora,),
+              TextForm(titolo: 'Richieste Speciali(facoltativo):', hintText: 'Es. 1 celicalo', myController: speciali,),
 
               ElevatedButton(
 
                 child: const Text("Prenota il tavolo"),
                 onPressed: (){
-                  if (nominativo.value.text != "" && telefono.value.text != "" && speciali.value.text != "") {
+                  if (nominativo.value.text != "" && telefono.value.text != "" && giorno.currentDate != null)  {
+
+                    DateTime d = giorno.currentDate;
+                    d = d.copyWith(hour: ora.ora, minute: ora.minuti, second: 00);
+
                     setState(() {
+
+
                     _prenotazione = {
+
+                    "data" : Timestamp.fromDate(d),
                     "nominativo" : nominativo.value.text,
                     "telefono" : telefono.value.text,
                     "richieste_speciali" : speciali.value.text
+
                     };
                     });
                     
@@ -115,8 +128,8 @@ class _PrenotaState extends State<Prenota>{
                 ),
 
                 DefaultTextStyle(
-                  style: Theme.of(context).textTheme.displayMedium!,
                   textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black),
                   child: databaseReturn()
                 )
             ],
