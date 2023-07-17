@@ -4,9 +4,10 @@ import 'package:flutter_application_1/pages/PrenotaPage/time_picker_timeline/tim
 import 'date_picker_timeline/date_picker_widget.dart';
 
 class DateForm extends StatefulWidget {
-  const DateForm({super.key});
+  DateForm({super.key, required this.datePickerController, required this.timePickerController});
 
-  
+  DatePickerController datePickerController;
+  TimePickerController timePickerController;
 
   @override
   State<DateForm> createState() => _DateFormState();
@@ -34,17 +35,20 @@ class _DateFormState extends State<DateForm> {
         
         Container(
           margin: EdgeInsets.only(bottom: 20),
-          child: DatePicker(DateTime.now(), initialSelectedDate: DateTime.now(), daysCount: 20)
+          child: DatePicker(DateTime.now(), initialSelectedDate: DateTime.now(), daysCount: 20, controller: widget.datePickerController)
         ),
 
         Container(
           margin: EdgeInsets.only(left: 15),
           alignment: Alignment.centerLeft,
-          child: const Text("Ora:", textAlign: TextAlign.left),
+          child: const Row(children: [
+            Text("Ora della prenotazione:", textAlign: TextAlign.left),
+            
+          ],),
+          
           ), 
-        
-        TimePicker(orariPranzo)
-
+          TimePicker(orariPranzo, controller: widget.timePickerController,)
+          
         ]
 
       )
