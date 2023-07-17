@@ -107,7 +107,7 @@ class _TimePickerState extends State<TimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: widget.height,
       child: ListView.builder(
         itemCount: widget.orari.length,
@@ -170,6 +170,14 @@ class TimePickerController {
 
   void setTimePickerState(_TimePickerState state) {
     _timePickerState = state;
+  }
+
+  get ora{
+    return int.parse(_timePickerState!._currentTime!.substring(0, 2));
+  }
+
+  get minuti {
+    return int.parse(_timePickerState!._currentTime!.substring(3, 5));
   }
 
   void jumpToSelection() {
