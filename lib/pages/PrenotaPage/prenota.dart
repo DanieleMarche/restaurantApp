@@ -22,7 +22,9 @@ class _PrenotaState extends State<Prenota>{
 
   Map<String, Object> _prenotazione = {};
 
-  late bool _pranzoAperti;
+  bool _pranzoAperti = false;
+
+  bool _martediAperti = false;
 
   String _result = "";
 
@@ -32,19 +34,36 @@ class _PrenotaState extends State<Prenota>{
   DatePickerController giorno = DatePickerController();
   TimePickerController ora = TimePickerController();
 
-    @override
-  void initState() async {
+  @override
+  void initState() {
     super.initState();
 
-    var collection = FirebaseFirestore.instance.collection('users');
-    var docSnapshot = await collection.doc('doc_id').get();
+    getInitialDatasFromDatabase();
+
+  }
+
+  ///This function gets the datas from the admin account that needs to run correctly
+  ///the reservation form.
+  void getInitialDatasFromDatabase () async {
+
+    var collection = FirebaseFirestore.instance.collection('admin');
+    var docSnapshot = await collection.doc('admin').get();
+
     if (docSnapshot.exists) {
       Map<String, dynamic>? data = docSnapshot.data();
-      _pranzoAperti = data?['pranzo_giorni_feriali']; // <-- The value you want to retrieve. 
+      _pranzoAperti = data?['pranzo_giorni_feriali'];
+      _martediAperti = data?['martedì_aperti']; // <-- The value you want to retrieve. 
       // Call setState if needed.
+      setState(() {
+        _result = "$_pranzoAperti , $_martediAperti";
+      });
+    } else {
+      _pranzoAperti = false;
+      _martediAperti = false;
+      setState(() {
+        _result = "database problem has occurred";
+      });
     }
-
-
   }
 
   Future<String> nuovaPrenotazione(var prenotazione) async {
@@ -104,7 +123,7 @@ class _PrenotaState extends State<Prenota>{
 
               TextForm(titolo: 'Nominativo:', hintText: 'Mario Rossi', myController: nominativo,),
               TextForm(titolo: 'Numero di telefono:', hintText: '30040050000', myController: telefono,),
-              DateForm(datePickerController: giorno, timePickerController: ora,),
+              DateForm(datePickerController: giorno, pranzoGiorniFeriali: _pranzoAperti, martediAperti: _martediAperti,),
               TextForm(titolo: 'Richieste Speciali(facoltativo):', hintText: 'Es. 1 celicalo', myController: speciali,),
 
               ElevatedButton(
