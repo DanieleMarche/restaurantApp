@@ -61,6 +61,8 @@ class DatePicker extends StatefulWidget {
   /// Locale for the calendar default: en_us
   final String locale;
 
+  final bool tuesday;
+
   DatePicker(
     this.startDate, {
     Key? key,
@@ -76,6 +78,7 @@ class DatePicker extends StatefulWidget {
     this.initialSelectedDate,
     this.activeDates,
     this.inactiveDates,
+    this.tuesday = true,
     this.daysCount = 500,
     this.onDateChange,
     this.locale = "it_IT",
@@ -162,6 +165,12 @@ class _DatePickerState extends State<DatePicker> {
                 isDeactivated = false;
                 break;
               }
+            }
+          }
+
+          if(widget.tuesday == false) {
+            if(date.weekday == DateTime.tuesday) {
+              isDeactivated = true;
             }
           }
 
