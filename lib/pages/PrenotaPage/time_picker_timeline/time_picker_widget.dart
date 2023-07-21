@@ -1,5 +1,7 @@
 
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -47,8 +49,7 @@ class TimePicker extends StatefulWidget {
   final List<DateTime>? activeDates;
 
   /// Callback function for when a different date is selected
-  final TimeChangeListener? onDateChange;
-
+  final TimeChangeListener? onTimeChange;
 
   /// Locale for the calendar default: en_us
   final String locale;
@@ -68,7 +69,7 @@ class TimePicker extends StatefulWidget {
     this.initialSelectedDate,
     this.activeDates,
     this.inactiveDates,
-    this.onDateChange,
+    this.onTimeChange,
     this.locale = "it_IT",
   }) : assert(
             activeDates == null || inactiveDates == null,
@@ -103,6 +104,13 @@ class _TimePickerState extends State<TimePicker> {
         widget.timeTextStyle.copyWith(color: widget.deactivatedColor);
 
     super.initState();
+  }
+
+  void removeCurrentTime() {
+    setState(() {
+      _currentTime = null;
+    });
+    
   }
 
   @override
@@ -152,11 +160,12 @@ class _TimePickerState extends State<TimePicker> {
               if (isDeactivated) return;
 
               // A date is selected
-              widget.onDateChange?.call(selectedDate);
+              widget.onTimeChange?.call(selectedDate);
 
               setState(() {
                 _currentTime = selectedDate;
               });
+
             },
           );
         },
@@ -179,6 +188,18 @@ class TimePickerController {
   get minuti {
     return int.parse(_timePickerState!._currentTime!.substring(3, 5));
   }
+
+  /// Function to deselect the currently selected TimeWidget
+  void deselectTime() async {
+    assert(_timePickerState != null,
+        'TimePickerController is not attached to any TimePicker View.');
+
+    _timePickerState?.removeCurrentTime();
+
+    // Deselect the current date
+    
+  }
+
 
   void jumpToSelection() {
     assert(_timePickerState != null,
