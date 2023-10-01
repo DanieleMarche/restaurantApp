@@ -181,6 +181,15 @@ class TimePickerController {
     _timePickerState = state;
   }
 
+  bool isADateSelected () {
+    if (_timePickerState?._currentTime != null) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   get ora{
     return int.parse(_timePickerState!._currentTime!.substring(0, 2));
   }

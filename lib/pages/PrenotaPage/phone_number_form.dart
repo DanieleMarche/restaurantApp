@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-class TextForm extends StatefulWidget {
-  TextForm({super.key, required this.titolo, required this.hintText, required this.myController, this.textInputType});
+class PhoneNumberForm extends StatefulWidget {
+  PhoneNumberForm({super.key, required this.titolo, required this.hintText, required this.myController, this.textInputType});
 
   String titolo;
   String hintText;
@@ -9,12 +10,12 @@ class TextForm extends StatefulWidget {
   TextInputType? textInputType;
 
   @override
-  State<TextForm> createState() => _TextFormState();
+  State<PhoneNumberForm> createState() => _PhoneNumberFormState();
 }
 
 // Define a corresponding State class.
 // This class holds the data related to the Form.
-class _TextFormState extends State<TextForm> {
+class _PhoneNumberFormState extends State<PhoneNumberForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
    
@@ -43,18 +44,20 @@ class _TextFormState extends State<TextForm> {
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 10),
-          child: TextField(
-          keyboardType: widget.textInputType,
-          decoration: InputDecoration(
+          child: InternationalPhoneNumberInput(
+            onInputChanged: (phoneNumber) {}, 
+            hintText: widget.hintText,
+            textFieldController: widget.myController,
+            countries: const ["IT"],
+            inputDecoration: InputDecoration(
             border:  const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))
             ),
             hintText: widget.hintText
           ),
-              
-          maxLength: 50,
-          controller: widget.myController
-        ),    
+          //maxLength: 10,
+          spaceBetweenSelectorAndTextField: 0.0,
+          )
         )
         
     ]);

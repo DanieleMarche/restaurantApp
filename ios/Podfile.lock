@@ -692,6 +692,9 @@ PODS:
     - Libuv-gRPC (= 0.0.10)
   - gRPC-Core/Interface (1.44.0)
   - leveldb-library (1.22.2)
+  - libphonenumber_plugin (0.0.1):
+    - Flutter
+    - PhoneNumberKit
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
     - Libuv-gRPC/Interface (= 0.0.10)
@@ -703,12 +706,19 @@ PODS:
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
+  - PhoneNumberKit (3.6.6):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.6.6)
+    - PhoneNumberKit/UIKit (= 3.6.6)
+  - PhoneNumberKit/PhoneNumberKitCore (3.6.6)
+  - PhoneNumberKit/UIKit (3.6.6):
+    - PhoneNumberKit/PhoneNumberKitCore
   - PromisesObjC (2.2.0)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
 
 SPEC REPOS:
   trunk:
@@ -724,6 +734,7 @@ SPEC REPOS:
     - leveldb-library
     - Libuv-gRPC
     - nanopb
+    - PhoneNumberKit
     - PromisesObjC
 
 EXTERNAL SOURCES:
@@ -733,6 +744,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  libphonenumber_plugin:
+    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
@@ -748,8 +761,10 @@ SPEC CHECKSUMS:
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
+  libphonenumber_plugin: e8a7d64a6624a7c25f2c4ab0b7ead2a8e341e35e
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  PhoneNumberKit: 5b1be7ee4955dfeeb855f51eecdd829ab24b3484
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3

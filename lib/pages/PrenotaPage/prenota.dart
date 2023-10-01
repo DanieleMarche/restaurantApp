@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/PrenotaPage/date_picker_timeline/date_picker_widget.dart';
+import 'package:flutter_application_1/pages/PrenotaPage/phone_number_form.dart';
 
 import 'package:flutter_application_1/pages/PrenotaPage/textForm.dart';
 import 'package:flutter_application_1/pages/PrenotaPage/time_picker_timeline/time_picker_widget.dart';
@@ -32,7 +33,10 @@ class _PrenotaState extends State<Prenota>{
   TextEditingController telefono = TextEditingController();
   TextEditingController speciali = TextEditingController();
   DatePickerController giorno = DatePickerController();
-  TimePickerController ora = TimePickerController();
+  TimePickerController lunchController = TimePickerController();
+  TimePickerController dinnerController = TimePickerController();
+  
+
 
   @override
   void initState() {
@@ -121,9 +125,13 @@ class _PrenotaState extends State<Prenota>{
 
             children: [
 
-              TextForm(titolo: 'Nominativo:', hintText: 'Mario Rossi', myController: nominativo,),
-              TextForm(titolo: 'Numero di telefono:', hintText: '30040050000', myController: telefono,),
-              DateForm(datePickerController: giorno, pranzoGiorniFeriali: _pranzoAperti, martediAperti: _martediAperti,),
+              TextForm(titolo: 'Nominativo:', hintText: 'Mario Rossi', myController: nominativo, ),
+              
+              PhoneNumberForm(titolo: "Recapito Telefonico", hintText: "3004005000", myController: telefono),
+                
+              
+              
+              DateForm(datePickerController: giorno, lunchTimePickerController: lunchController, dinnerTimePickerController: dinnerController, pranzoGiorniFeriali: _pranzoAperti, martediAperti: _martediAperti,),
               TextForm(titolo: 'Richieste Speciali(facoltativo):', hintText: 'Es. 1 celicalo', myController: speciali,),
 
               ElevatedButton(
@@ -133,7 +141,13 @@ class _PrenotaState extends State<Prenota>{
                   if (nominativo.value.text != "" && telefono.value.text != "" && giorno.currentDate != null)  {
 
                     DateTime d = giorno.currentDate;
-                    d = d.copyWith(hour: ora.ora, minute: ora.minuti, second: 00);
+
+                    if(lunchController.isADateSelected()) {
+                      d = d.copyWith(hour: lunchController.ora, minute: lunchController.minuti, second: 00);
+                    } else {
+                      d = d.copyWith(hour: dinnerController.ora, minute: dinnerController.minuti, second: 00);
+                    }
+                    
 
                     setState(() {
 
